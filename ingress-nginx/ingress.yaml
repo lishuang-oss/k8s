@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /    # 注意这里需要把进来到服务的请求重定向到/，这个和传统的nginx配置是一样的，不配会404
+  name: nginx-ingress
+spec:
+  rules:
+    - host: nginx.test.com
+      http:
+        paths:
+          - backend:
+              serviceName: web1
+              servicePort: 80
+            path: /web1  # 注意这里的路由名称要是唯一的
+          - backend:       # 从这里开始是新增加的
+              serviceName: web2
+              servicePort: 80
+            path: /web2  # 注意这里的路由名称要是唯一的
+  tls:    # 增加下面这段，注意缩进格式
+      - hosts:
+          - nginx.boge.com   # 这里域名和上面的对应
+        secretName: mytls    # 这是我先生成的secret
