@@ -1,5 +1,3 @@
-service
-
 ```
 apiVersion: apps/v1   #api版本 
 kind: Deployment   #选择什么控制器来创建
